@@ -1,0 +1,39 @@
+:root {
+  --acsentColor: rgb(59, 212, 151);
+}
+
+
+body {
+  background-color: rgb(247, 245, 245);
+}
+
+
+
+.unica-one-judul {
+  font-family: "Unica One", serif;
+  font-size: 2em;
+}
+
+.unica-one-regular {
+  font-family: "Unica One", serif;
+}
+
+.unica-one-footer {
+  font-family: "Unica One", serif;
+  font-size: 1.5em;
+}
+
+.h-line {
+  width: 150px;
+  margin: 0 auto;
+  height: 1.7px;
+}
+
+
+
+/* Untuk browser berbasis WebKit (Chrome, Safari, dll.) */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
