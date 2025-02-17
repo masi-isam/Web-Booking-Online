@@ -1,4 +1,16 @@
-<?php include 'config.php' ?>
+<?php 
+
+
+include 'layouts/essentials.php'; 
+include 'layouts/config.php';
+
+session_start();
+if ((isset($_SESSION['adminLogin']) && $_SESSION['adminLogin']== true)) {
+    header('Location: dashboard.php');
+}
+
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -32,7 +44,7 @@
                 <div class="mb-4">
                     <input type="password" name="admin_pass" class="form-control shadow-none text-center" placeholder="Password Admin">
                 </div>
-                <button name="login" type="submit"  class="btn btn-custom text-white">LOGIN</button>
+                <button name="login" type="submit" class="btn btn-custom text-white">LOGIN</button>
             </div>
         </form>
     </div>
@@ -40,18 +52,20 @@
     <?php
 
     if (isset($_POST['login'])) {
-        $filterinput = Filteration($_POST);
-        $name = $filterinput['admin_name'];
-        $password = $filterinput['admin_pass'];
+        $filterinput = filteration($_POST);
 
-        $sql = "SELECT * FROM admin_cred WHERE admin_name='$name' OR admin_pass = '$password'";
+        $query = "SELECT * FROM  `admin_cred` WHERE `admin_name`=? AND `admin_pass`=?";
+        $values = [$filterinput['admin_name'], $filterinput['admin_pass']];
 
-        $conn_sql = $conn->query($sql);
-
-        if (mysqli_num_rows($conn_sql) > 0) {
-            echo "Data Ada";
-        }else {
-            echo "GAGal";
+        $res = select($query, $values, "ss");
+        if ($res->num_rows == 1) {
+            $tampung = mysqli_fetch_assoc($res);
+            session_start();
+            $_SESSION['adminLogin'] = true;
+            $_SESSION['adminId'] = $tampung['sr_no'];
+            header("location:dashboard.php");
+        } else {
+            alert('error', 'Login Failed - Invalid Credentials!');
         }
     }
 
@@ -62,4 +76,3 @@
 </body>
 
 </html>
-
